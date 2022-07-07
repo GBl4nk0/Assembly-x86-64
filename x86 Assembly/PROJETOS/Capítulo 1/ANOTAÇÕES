@@ -1,0 +1,62 @@
+LIVRO: 
+Programação em Baixo Nível. - C, Assembly e execução de programas na arquitetura Intel 64.
+
+CAPÍTULO 1
+
+QUESTÃO 01: É hora de fazer uma pesquisa preliminar baseada na documentação [15]. Consulte a seção 3.4.3 do primeiro volume para conhecer o registrador rflags. O que significam as flags CF, AF, ZF, OF, SF? Qual é a diferença entre OF e CF?
+
+RESPOSTA: 
+
+CF = Carry Flag; AF = Auxiliary Carry Flag; ZF = Zero Flag; OF = Overflow Flag; SF = Sign Flag.
+
+Se o resultado de uma operação aritmética é tratada como uma "unsigned integer", a flag "CF" indica uma condição fora de alcance ("carry" ou "borrow"); se tratada como uma "signed integer", a flag OF é quem indica um "carry" ou "borrow".
+
+----------//----------
+
+p. 42:
+
+- Leia o restante da explicação sobre push. Quando o operando não tem o sinal estendido?
+
+    R: Quando a origem do operando é um registrador de segmento (16 bits) e o tamanho do operando é 64-bits. Além disso, quando o tamanho do operando é de 32 bits (neste caso, ou o sinal estendido é zero, ou o "segment selector" é gravado na stack usando um "16-bit move".
+
+- Explique todos os efeitos da instrução push rsp na memória e nos registradores.
+
+    R: A instrução "PUSH ESP" 'empurra' o valor do registrador ESP como se ele existisse antes da instrução ser executada. Se a instrução PUSH usar um operando de memória onde o registrador ISP é usado para computar o endereço do operando, o endereço do operando é computado antes do registrador ESP ser decrementado. Se o registrador ESP ou SP é "1" quando a instrução PUSH é executada em um modo de endereço-real, uma "stack fault exception" (#SS) é gerada (porque o limite do segmento da stack é violado). Sua entrega encontra uma segunda "stack fault exception" (pela mesma razão), causando a geração de uma "double-fault exception" (#DF). Em seguida, a entrega de uma "double-fault exception" encontra uma terceira "stack-fault exception", e o processador lógico entra no modo de desligamento.
+
+----------//----------
+
+QUESTÃO 02: Quais são os princípios essenciais da arquitetura de von Neumann?
+
+    R: É um computador constituído de um processador e um banco de memória, conectados por um barramento (bus) comum. Uma CPU (Central Processing Unit, ou Unidade Central de Processamento) é capaz de executar instruções, buscadas da memória por uma unidade de controle. A ALU (Arithmetic Logic Unit, ou Unidade Lógica e Aritmética) executa os processamentos necessários. A memória também armazena dados.
+
+QUESTÃO 03: O que são registradores?
+
+    R: São células de memória alocadas diretamente no chip da CPU. Os acessos aos registradores não utilizam o barramento (bus). O tempo de resposta dos registradores é igual a dois ciclos de CPU. São poucos, porém rápidos. Além disso, os registradores são baseados em transistores, enquanto a memória principal utiliza condensadores.
+
+QUESTÃO 04: O que é a pilha de hardware?
+
+    R: Uma pilha, em geral, é uma estrutura de dados. Ela aceita duas operações: PUSH (inserção) de um elemento no topo e POP (remoção) do elemento superior. Utiliza de instruções especiais e de um registrador que aponta para o último elemento da pilha. É utilizada não somente em processamentos, mas também para armazenar  variáveis locais e implementar sequências de chamadas de função nas linguagens de programação.
+
+QUESTÃO 05: O que são interrupções?
+
+    R: Interrupções são um recurso que permite alterar a ordem de execução dos programas com base em eventos externos ao próprio programa. Assim que um sinal (externo ou interno) é capturado, a execução de um programa é suspensa, alguns registradores são salvos e a CPU começa a executar uma rotina especial para lidar com a situação. Exemplos em que ocorrem interrupções: divisão por zero; um sinal de um dispositivo externo; instrução inválida (quando a CPU falha em reconhecer uma instrução pela sua representação binária); uma tentativa de executar uma instrução privilegiada em um modo não privilegiado.
+
+QUESTÃO 06: Quais são os principais problemas que as extensões modernas do modelo de von Neumann tentam resolver?
+
+    R: 
+
+QUESTÃO 07: Quais são os principais registradores de propósito geral do Intel 64?
+
+    R: Os principais e mais utilizados, são oito. Respectivamente: rax, rbx, rcx, rdx, rsp, rbp, rsi, rdi.
+
+QUESTÃO 08: Qual é o propósito do ponteiro de pilha (stack pointer)?
+
+    R: Armazenar o endereço do elemento do topo da pilha de hardware. (?)
+
+QUESTÃO 09: A pilha pode estar vazia?
+
+    R: Não há situações em que as pilhas estejam vazias (mesmo que não tenhamos executado push nenhuma vez). Um algoritmo POP pode ser executado de qualquer modo, provavelmente devolvendo um elemento do "topo" da pilha contendo "lixo".
+
+QUESTÃO 10: É possível contar os elementos em uma pilha?
+
+
